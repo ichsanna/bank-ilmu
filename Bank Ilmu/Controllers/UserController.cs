@@ -17,11 +17,13 @@ namespace Bank_Ilmu.Controllers
         }
         public ActionResult Login()
         {
-            return View();
+            if (Session["username"] == null) return View();
+            else return RedirectToAction("Index", "Home");
         }
         public ActionResult Register()
         {
-            return View();
+            if (Session["username"] == null) return View();
+            else return RedirectToAction("Index", "Home");
         }
         public ActionResult Logout()
         {
@@ -42,6 +44,7 @@ namespace Bank_Ilmu.Controllers
 
                 while (myReader.Read())
                 {
+                    System.Diagnostics.Debug.WriteLine(myReader["username"]+"\n");
                     if (myReader["username"].ToString()==username && myReader["password"].ToString() == password)
                     {
                         Session["username"] = username;

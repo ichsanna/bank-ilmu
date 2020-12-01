@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace Bank_Ilmu.Controllers
 {
@@ -21,23 +23,50 @@ namespace Bank_Ilmu.Controllers
         {
             return View();
         }
+        public ActionResult Logout()
+        {
+            Session["username"] = null;
+            return RedirectToAction("Login", "User");
+        }
         [HttpPost]
         public string LoginSubmit(string username, string password)
         {
+            string response = "Incorrect username or password";
             if (!String.IsNullOrEmpty(username) && !String.IsNullOrEmpty(password))
             {
-                //TODO: Get the data from database
-                Session["username"] = username;
-                return "Successfully logged in";
+                SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\bankilmu.mdf;Integrated Security=True");
+                if (con.State == ConnectionState.Closed) con.Open();
+                string strSelect = "SELECT * FROM users WHERE username = '"+username+ "' AND password = '" + password + "'";
+                SqlCommand cmd = new SqlCommand(strSelect, con);
+                SqlDataReader myReader = cmd.ExecuteReader();
+
+                while (myReader.Read())
+                {
+                    if (myReader["username"].ToString()==username && myReader["password"].ToString() == password)
+                    {
+                        Session["username"] = username;
+                        response = "Successfully logged in";
+                    }
+                }
+                myReader.Close();
+                con.Close();
+                return response;
             }
             else
                 return "Please fill the login credentials";
         }
+        [HttpPost]
         public string RegisterSubmit(string email, string username, string password)
         {
             if (!String.IsNullOrEmpty(username) && !String.IsNullOrEmpty(password) && !String.IsNullOrEmpty(email))
             {
-                //TODO: Post the data from database
+                SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\bankilmu.mdf;Integrated Security=True");
+                if (con.State == ConnectionState.Closed) con.Open();
+                SqlCommand cmd = con.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "INSERT INTO users (email,username,password) VALUES ('"+email+"','"+username+"','"+password+"')";
+                cmd.ExecuteNonQuery();
+                con.Close();
                 Session["username"] = username;
                 return "Successfully registered and logged in";
             }

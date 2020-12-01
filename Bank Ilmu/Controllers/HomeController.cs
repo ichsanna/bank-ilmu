@@ -10,7 +10,11 @@ namespace Bank_Ilmu.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            if (Session["username"] == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+            else return View();
         }
 
         public ActionResult About()

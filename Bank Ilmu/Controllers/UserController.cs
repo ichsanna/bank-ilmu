@@ -28,10 +28,10 @@ namespace Bank_Ilmu.Controllers
         public ActionResult Logout()
         {
             Session["username"] = null;
-            return RedirectToAction("Login", "User");
+            return RedirectToAction("Index", "Home");
         }
         [HttpPost]
-        public string LoginSubmit(string username, string password)
+        public ActionResult LoginSubmit(string username, string password)
         {
             string response = "Incorrect username or password";
             if (!String.IsNullOrEmpty(username) && !String.IsNullOrEmpty(password))
@@ -53,13 +53,18 @@ namespace Bank_Ilmu.Controllers
                 }
                 myReader.Close();
                 con.Close();
-                return response;
+                ViewBag.response = response;
+                return RedirectToAction("Index", "Home");
             }
             else
-                return "Please fill the login credentials";
+            {
+                ViewBag.response = "Please fill the login credentials";
+                return RedirectToAction("Login", "User");
+            }
+                
         }
         [HttpPost]
-        public string RegisterSubmit(string email, string username, string password)
+        public ActionResult RegisterSubmit(string email, string username, string password)
         {
             if (!String.IsNullOrEmpty(username) && !String.IsNullOrEmpty(password) && !String.IsNullOrEmpty(email))
             {
@@ -71,10 +76,14 @@ namespace Bank_Ilmu.Controllers
                 cmd.ExecuteNonQuery();
                 con.Close();
                 Session["username"] = username;
-                return "Successfully registered and logged in";
+                ViewBag.response = "Successfully registered and logged in";
+                return RedirectToAction("Register", "User");
             }
             else
-                return "Please fill the required information";
+            {
+                ViewBag.response = "Please fill the required information";
+                return RedirectToAction("Register", "User");
+            }
         }
     }
 }

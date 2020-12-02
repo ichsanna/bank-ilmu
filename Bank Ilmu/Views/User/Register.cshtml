@@ -20,7 +20,7 @@
                 <div class="card card-signin my-5">
                     <div class="card-body">
                         <h5 class="card-title text-center">Daftar Bank Ilmu</h5>
-                        @using (Html.BeginForm())
+                        @using (Html.BeginForm("RegisterSubmit", "User", FormMethod.Post))
                         {
                             <div class="form-label-group">
                                 <input type="text" id="inputUsername" class="form-control" placeholder="Username" name="username" required>

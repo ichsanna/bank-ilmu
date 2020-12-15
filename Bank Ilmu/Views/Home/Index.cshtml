@@ -1,81 +1,78 @@
-﻿@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+﻿
 @{
+    Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Beranda";
 }
 
-<div class="container">
-    <div class="card rounded-lg mb-4" style="max-height: 200px;">
-        <img src="https://www.endocreative.com/wp-content/uploads/2014/11/banner-772x250.png" class="card-img-top rounded-lg" alt="Cover photo" style="max-height: 200px; object-fit: cover;" />
+<div class="card rounded-lg mb-4" style="max-height: 200px;">
+    <img src="https://www.endocreative.com/wp-content/uploads/2014/11/banner-772x250.png" class="card-img-top rounded-lg" alt="Cover photo" style="max-height: 200px; object-fit: cover;" />
+</div>
+<div class="shadow-sm p-3 mb-4 bg-white rounded border rounded-lg align-self-start d-flex">
+    <div>
+        <i class="fas fa-user-circle fa-3x"></i> <!--user image here-->
     </div>
-    <div class="shadow-sm p-3 mb-4 bg-white rounded border rounded-lg align-self-start d-flex">
+    <div class="ml-3 flex-grow-1">
+        <form>
+            <div class="form-group">
+                <label for="catatan">Catatan materi</label>
+                <textarea class="form-control" id="catatan" style="resize: none;"></textarea>
+            </div>
+            <div class="custom-file">
+                <label for="materi" class="custom-file-label">Materi</label>
+                <input type="file" class="custom-file-input" id="materi" />
+            </div>
+            <button type="submit" class="btn btn-primary mt-2">Unggah</button>
+        </form>
+
+    </div>
+</div>
+
+<!--loop content here-->
+<div class="card rounded-lg">
+    <div class="d-flex align-items-center p-3">
         <div>
-            <i class="fas fa-user-circle fa-3x"></i> <!--user image here-->
+            <i class="fas fa-user-circle fa-3x"></i> <!--Use image-->
         </div>
-        <div class="ml-3 flex-grow-1">
-            <form>
-                <div class="form-group">
-                    <label for="catatan">Catatan materi</label>
-                    <textarea class="form-control" id="catatan" style="resize: none;"></textarea>
-                </div>
-                <div class="custom-file">
-                    <label for="materi" class="custom-file-label">Materi</label>
-                    <input type="file" class="custom-file-input" id="materi" />
-                </div>
-                <button type="submit" class="btn btn-primary mt-2">Unggah</button>
-            </form>
-
+        <div class="ml-3">
+            <span>Nama User</span><br />
+            <span class="text-muted">waktu upload</span>
+        </div>
+        <div class="dropdown ml-auto">
+            <a class="btn" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-ellipsis-v"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" href="#">Unduh</a>
+                <a class="dropdown-item" href="#">Sunting</a>
+                <a class="dropdown-item" href="#">Hapus</a>
+            </div>
         </div>
     </div>
-
-    <!--loop content here-->
-    <div class="card rounded-lg">
-        <div class="d-flex align-items-center p-3">
+    <div class="pt-2 px-3">
+        catatan here
+        <div class="d-flex align-items-center mt-1">
+            <div class="mr-3">
+                <i class="fas fa-thumbs-up"></i> 120
+            </div>
+            <div class="mr-3">
+                <i class="fas fa-download"></i> 420
+            </div>
             <div>
-                <i class="fas fa-user-circle fa-3x"></i> <!--Use image-->
-            </div>
-            <div class="ml-3">
-                <span>Nama User</span><br />
-                <span class="text-muted">waktu upload</span>
-            </div>
-            <div class="dropdown ml-auto">
-                <a class="btn" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-ellipsis-v"></i>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                    <a class="dropdown-item" href="#">Unduh</a>
-                    <a class="dropdown-item" href="#">Sunting</a>
-                    <a class="dropdown-item" href="#">Hapus</a>
-                </div>
+                <i class="fas fa-share-alt"></i> 69
             </div>
         </div>
-        <div class="pt-2 px-3">
-            catatan here
-            <div class="d-flex align-items-center mt-1">
-                <div class="mr-3">
-                    <i class="fas fa-thumbs-up"></i> 120
-                </div>
-                <div class="mr-3">
-                    <i class="fas fa-download"></i> 420
-                </div>
-                <div>
-                    <i class="fas fa-share-alt"></i> 69
-                </div>
-            </div>
+    </div>
+    <hr />
+    <div class="px-3 d-flex pb-3 align-items-center">
+        <div>
+            <i class="fas fa-user-circle fa-3x"></i> <!--Use image-->
         </div>
-        <hr />
-        <div class="px-3 d-flex pb-3 align-items-center">
-            <div>
-                <i class="fas fa-user-circle fa-3x"></i> <!--Use image-->
-            </div>
-            <div class="input-group ml-3">
-                <textarea class="form-control" placeholder="Komentar" aria-label="Komentar" aria-describedby="button-addon" style="height: 38px;"></textarea>
-                <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="button" id="button-addon2">
-                        <i class="fas fa-chevron-circle-right"></i>
-                    </button>
-                </div>
+        <div class="input-group ml-3">
+            <textarea class="form-control" placeholder="Komentar" aria-label="Komentar" aria-describedby="button-addon" style="height: 38px;"></textarea>
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2">
+                    <i class="fas fa-chevron-circle-right"></i>
+                </button>
             </div>
         </div>
     </div>

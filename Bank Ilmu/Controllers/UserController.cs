@@ -28,7 +28,7 @@ namespace Bank_Ilmu.Controllers
         public ActionResult Logout()
         {
             Session["username"] = null;
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "User");
         }
         [HttpPost]
         public ActionResult LoginSubmit(string username, string password)

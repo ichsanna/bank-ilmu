@@ -19,7 +19,7 @@
                 <li class="nav-item @((ViewBag.Title == "Beranda") ? "active" : "")">
                     <a class="nav-link" href="@Url.Action("Index", "Home")"><i class="fas fa-home"></i> Home</a>
                 </li>
-                <li class="nav-item @((ViewBag.Title == "Cari") ? "active" : "")">
+                <li class="nav-item @((ViewBag.Title == "Cari Materi") ? "active" : "")">
                     <a class="nav-link" href="@Url.Action("Index", "Search")"><i class="fas fa-search"></i> Cari</a>
                 </li>
                 <li class="nav-item @((ViewBag.Title == "Tukar Poin") ? "active" : "")">
@@ -44,14 +44,13 @@
         </div>
     </nav>
 
-    <div class="container body-content">
+    <div class="container mt-5 pt-3 body-content">
         @RenderBody()
-
     </div>
-        <hr />
-        <footer class="container">
-            <p>&copy; @DateTime.Now.Year - Bank Ilmu Kelompok F5</p>
-        </footer>
+    <hr />
+    <footer class="container">
+        <p>&copy; @DateTime.Now.Year - Bank Ilmu Kelompok F5</p>
+    </footer>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

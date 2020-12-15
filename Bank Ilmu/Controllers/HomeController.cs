@@ -13,7 +13,7 @@ namespace Bank_Ilmu.Controllers
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult Addnew()
         {
             return View();
         }

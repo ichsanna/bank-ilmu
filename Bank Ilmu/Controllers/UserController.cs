@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data;
 using System.Data.SqlClient;
+using System.Text;
 
 namespace Bank_Ilmu.Controllers
 {
@@ -36,6 +37,7 @@ namespace Bank_Ilmu.Controllers
             string response = "Incorrect username or password";
             if (!String.IsNullOrEmpty(username) && !String.IsNullOrEmpty(password))
             {
+                password = CreateMD5(password);
                 SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\bankilmu.mdf;Integrated Security=True");
                 if (con.State == ConnectionState.Closed) con.Open();
                 string strSelect = "SELECT * FROM users WHERE username = '"+username+ "' AND password = '" + password + "'";
@@ -68,6 +70,7 @@ namespace Bank_Ilmu.Controllers
         {
             if (!String.IsNullOrEmpty(username) && !String.IsNullOrEmpty(password) && !String.IsNullOrEmpty(email))
             {
+                password = CreateMD5(password);
                 SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\bankilmu.mdf;Integrated Security=True");
                 if (con.State == ConnectionState.Closed) con.Open();
                 SqlCommand cmd = con.CreateCommand();
@@ -83,6 +86,23 @@ namespace Bank_Ilmu.Controllers
             {
                 ViewBag.response = "Please fill the required information";
                 return RedirectToAction("Register", "User");
+            }
+        }
+        public static string CreateMD5(string input)
+        {
+            // Use input string to calculate MD5 hash
+            using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
+            {
+                byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(input);
+                byte[] hashBytes = md5.ComputeHash(inputBytes);
+
+                // Convert the byte array to hexadecimal string
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    sb.Append(hashBytes[i].ToString("X2"));
+                }
+                return sb.ToString();
             }
         }
     }

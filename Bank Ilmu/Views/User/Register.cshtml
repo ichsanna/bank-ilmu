@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Bank_Ilmu.Models.User
+@{
     Layout = null;
 }
 
@@ -25,23 +26,28 @@
                             <div class="form-label-group">
                                 <input type="text" id="inputUsername" class="form-control" placeholder="Username" name="username" required>
                                 <label for="inputUsername">Username</label>
+                                @Html.ValidationMessageFor(Model => Model.username, "", new { @class= "text-danger"})
                             </div>
 
                             <div class="form-label-group">
                                 <input type="email" id="inputEmail" class="form-control" placeholder="Alamat Email" name="email" required>
-                                <label for="inputEmail">Email address</label>
+                                <label for="inputEmail">Alamat Email</label>
+                                @Html.ValidationMessageFor(Model => Model.email, "", new { @class = "text-danger" })
                             </div>
 
                             <div class="form-label-group">
                                 <input type="password" id="inputPassword" class="form-control" placeholder="Password" name="password" required>
                                 <label for="inputPassword">Password</label>
+                                @Html.ValidationMessageFor(Model => Model.password, "", new { @class = "text-danger" })
                             </div>
 
                             <div class="form-label-group mb-5">
-                                <input type="password" id="inputRePassword" class="form-control" placeholder="Masukkan password ulang" required>
+                                <input type="password" id="inputRePassword" class="form-control" placeholder="Masukkan password ulang" name="rePassword" required>
                                 <label for="inputRePassword">Masukkan password ulang</label>
+                                @Html.ValidationMessageFor(Model => Model.rePassword, "", new { @class = "text-danger" })
                             </div>
 
+                            <div class="text-danger text-center mb-2">@ViewBag.response</div>
                             <input class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" value="Daftar">
                         }
 

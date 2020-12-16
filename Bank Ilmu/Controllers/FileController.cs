@@ -20,8 +20,7 @@ namespace Bank_Ilmu.Controllers
             {
                 System.Diagnostics.Debug.WriteLine(title + description + "\n");
                 int contentid = 0;
-                if (materi == null || materi.Length == 0)
-                    return Content("file not selected");
+                if (materi == null || materi.Length == 0) return Content("file not selected");
                 SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\bankilmu.mdf;Integrated Security=True");
                 if (con.State == ConnectionState.Closed) con.Open();
                 SqlCommand cmd = con.CreateCommand();
@@ -36,7 +35,7 @@ namespace Bank_Ilmu.Controllers
                 {
                     if (myReader["title"].ToString() == title)
                     {
-                        contentid = Convert.ToInt32(myReader["Id"]) + 1;
+                        contentid = Convert.ToInt32(myReader["Id"]);
                     }
                 }
                 myReader.Close();
@@ -53,7 +52,7 @@ namespace Bank_Ilmu.Controllers
             else
             {
                 ViewBag.response = "Please fill the required information";
-                return RedirectToAction("", "User");
+                return RedirectToAction("Home", "Index");
             }
         }
         public async Task<ActionResult> Download(string contentid)

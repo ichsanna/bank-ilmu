@@ -55,7 +55,7 @@ namespace Bank_Ilmu.Controllers
             myReader.Close();
             MySqlCommand cmd2 = con.CreateCommand();
             cmd2.CommandType = CommandType.Text;
-            cmd2.CommandText = "UPDATE contents SET downloadcount = " + dlcount + " WHERE Id = '" + contentid + "'";
+            cmd2.CommandText = "UPDATE contents SET downloadcount = downloadcount + 1 WHERE Id = '" + contentid + "'";
             cmd2.ExecuteNonQuery();
             MySqlCommand cmd3 = con.CreateCommand();
             cmd3.CommandType = CommandType.Text;

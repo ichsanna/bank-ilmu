@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Data;
 using System.Data.SqlClient;
 using System.Text;
+using Bank_Ilmu.Models;
 
 namespace Bank_Ilmu.Controllers
 {
@@ -32,61 +33,81 @@ namespace Bank_Ilmu.Controllers
             return RedirectToAction("Index", "User");
         }
         [HttpPost]
-        public ActionResult LoginSubmit(string username, string password)
+        public ActionResult LoginSubmit(UserLogin user)
         {
             string response = "Incorrect username or password";
-            if (!String.IsNullOrEmpty(username) && !String.IsNullOrEmpty(password))
+            bool success = false;
+            if (ModelState.IsValid)
             {
-                password = CreateMD5(password);
+                user.password = CreateMD5(user.password);
                 SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\bankilmu.mdf;Integrated Security=True");
                 if (con.State == ConnectionState.Closed) con.Open();
-                string strSelect = "SELECT * FROM users WHERE username = '"+username+ "' AND password = '" + password + "'";
+                string strSelect = "SELECT * FROM users WHERE username = '"+user.username+ "' AND password = '" + user.password + "'";
                 SqlCommand cmd = new SqlCommand(strSelect, con);
                 SqlDataReader myReader = cmd.ExecuteReader();
 
                 while (myReader.Read())
                 {
-                    if (myReader["username"].ToString()==username && myReader["password"].ToString() == password)
+                    if (myReader["username"].ToString()==user.username && myReader["password"].ToString() == user.password)
                     {
-                        Session["username"] = username;
+                        Session["username"] = user.username;
                         Session["points"] = myReader["points"].ToString();
                         response = "Successfully logged in";
+                        success = true;
+                    }
+                    else
+                    {
+                        success = false;
+                        response = "Username atau password salah";
                     }
                 }
                 myReader.Close();
                 con.Close();
-                ViewBag.response = response;
-                return RedirectToAction("Index", "Home");
+                if (success)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    ViewBag.response = response;
+                    return View("Login");
+                }
             }
             else
             {
-                ViewBag.response = "Please fill the login credentials";
-                return RedirectToAction("Login", "User");
+                ViewBag.response = "Password atau Username tidak valid";
+                return View("Login");
             }
                 
         }
         [HttpPost]
-        public ActionResult RegisterSubmit(string email, string username, string password)
+        public ActionResult RegisterSubmit(User user)
         {
-            if (!String.IsNullOrEmpty(username) && !String.IsNullOrEmpty(password) && !String.IsNullOrEmpty(email))
+            if (ModelState.IsValid)
             {
-                password = CreateMD5(password);
+                if(user.password != user.rePassword)
+                {
+                    ViewBag.response = "Password tidak sesuai";
+                    return View("Register");
+                }
+
+                user.password = CreateMD5(user.password);
                 SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\bankilmu.mdf;Integrated Security=True");
                 if (con.State == ConnectionState.Closed) con.Open();
                 SqlCommand cmd = con.CreateCommand();
                 cmd.CommandType = CommandType.Text;
-                cmd.CommandText = "INSERT INTO users (email,username,password) VALUES ('"+email+"','"+username+"','"+password+"')";
+                cmd.CommandText = "INSERT INTO users (email,username,password) VALUES ('"+user.email+"','"+user.username+"','"+user.password+"')";
                 cmd.ExecuteNonQuery();
                 con.Close();
-                Session["username"] = username;
+                Session["username"] = user.username;
                 Session["points"] = 0;
                 ViewBag.response = "Successfully registered and logged in";
                 return RedirectToAction("Register", "User");
             }
             else
             {
-                ViewBag.response = "Please fill the required information";
-                return RedirectToAction("Register", "User");
+                ViewBag.response = "Data tidak valid";
+                return View("Register");
             }
         }
         public static string CreateMD5(string input)

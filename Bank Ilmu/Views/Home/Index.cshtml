@@ -12,68 +12,81 @@
         <i class="fas fa-user-circle fa-3x"></i> <!--user image here-->
     </div>
     <div class="ml-3 flex-grow-1">
-        <form>
+        @using (Html.BeginForm("Upload", "File", FormMethod.Post))
+        {
             <div class="form-group">
-                <label for="catatan">Catatan materi</label>
-                <textarea class="form-control" id="catatan" style="resize: none;"></textarea>
+                <label for="catatan">Judul materi</label>
+                <input type="text" class="form-control" name="title" id="judul" style="resize: none;">
+            </div>
+            <div class="form-group">
+                <label for="catatan">Deskripsi</label>
+                <textarea class="form-control" name="description" id="deskripsi" style="resize: none;"></textarea>
             </div>
             <div class="custom-file">
-                <label for="materi" class="custom-file-label">Materi</label>
-                <input type="file" class="custom-file-input" id="materi" />
+                <label for="materi" class="custom-file-label">Upload Materi</label>
+                <input name="file" type="file" class="custom-file-input" id="materi" />
             </div>
             <button type="submit" class="btn btn-primary mt-2">Unggah</button>
-        </form>
+        }
 
-    </div>
+        </div>
 </div>
 
 <!--loop content here-->
-<div class="card rounded-lg">
-    <div class="d-flex align-items-center p-3">
-        <div>
-            <i class="fas fa-user-circle fa-3x"></i> <!--Use image-->
-        </div>
-        <div class="ml-3">
-            <span>Nama User</span><br />
-            <span class="text-muted">waktu upload</span>
-        </div>
-        <div class="dropdown ml-auto">
-            <a class="btn" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-ellipsis-v"></i>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                <a class="dropdown-item" href="#">Unduh</a>
-                <a class="dropdown-item" href="#">Sunting</a>
-                <a class="dropdown-item" href="#">Hapus</a>
+@if (ViewBag.data != null)
+{
+    for (int i = 0; i < ViewBag.data.Count; i++)
+    {
+        <div class="card rounded-lg">
+            <div class="d-flex align-items-center p-3">
+                <div>
+                    <i class="fas fa-user-circle fa-3x"></i> <!--Use image-->
+                </div>
+                <div class="ml-3">
+                    <span>@ViewBag.data[i].author</span><br />
+                    <span class="text-muted">@ViewBag.data[i].timestamp</span>
+                </div>
+                <div class="dropdown ml-auto">
+                    <a class="btn" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="#">Unduh</a>
+                        <a class="dropdown-item" href="#">Sunting</a>
+                        <a class="dropdown-item" href="#">Hapus</a>
+                    </div>
+                </div>
+            </div>
+            <div class="pt-2 px-3">
+                <strong> @ViewBag.data[i].title</strong>
+                <br />
+                <p>@ViewBag.data[i].description</p>
+                <div class="d-flex align-items-center mt-1">
+                    <div class="mr-3">
+                        <i class="fas fa-thumbs-up"></i> @ViewBag.data[i].likecount
+                    </div>
+                    <div class="mr-3">
+                        <i class="fas fa-download"></i> @ViewBag.data[i].downloadcount
+                    </div>
+                    <div>
+                        <i class="fas fa-share-alt"></i> @ViewBag.data[i].sharecount
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="px-3 d-flex pb-3 align-items-center">
+                <div>
+                    <i class="fas fa-user-circle fa-3x"></i> <!--Use image-->
+                </div>
+                <div class="input-group ml-3">
+                    <textarea class="form-control" placeholder="Komentar" aria-label="Komentar" aria-describedby="button-addon" style="height: 38px;"></textarea>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" id="button-addon2">
+                            <i class="fas fa-chevron-circle-right"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="pt-2 px-3">
-        catatan here
-        <div class="d-flex align-items-center mt-1">
-            <div class="mr-3">
-                <i class="fas fa-thumbs-up"></i> 120
-            </div>
-            <div class="mr-3">
-                <i class="fas fa-download"></i> 420
-            </div>
-            <div>
-                <i class="fas fa-share-alt"></i> 69
-            </div>
-        </div>
-    </div>
-    <hr />
-    <div class="px-3 d-flex pb-3 align-items-center">
-        <div>
-            <i class="fas fa-user-circle fa-3x"></i> <!--Use image-->
-        </div>
-        <div class="input-group ml-3">
-            <textarea class="form-control" placeholder="Komentar" aria-label="Komentar" aria-describedby="button-addon" style="height: 38px;"></textarea>
-            <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button" id="button-addon2">
-                    <i class="fas fa-chevron-circle-right"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
+    }
+}

@@ -55,7 +55,7 @@ namespace Bank_Ilmu.Controllers
                     count++;
                 }
                 myReader2.Close();
-                string strSelect3 = "SELECT * FROM likes WHERE username = '" + Session["username"] + "'";
+                string strSelect3 = "SELECT * FROM likes WHERE user = '" + Session["username"] + "'";
                 SqlCommand cmd3 = new SqlCommand(strSelect3, con);
                 SqlDataReader myReader3 = cmd3.ExecuteReader();
                 while (myReader3.Read())
@@ -96,7 +96,8 @@ namespace Bank_Ilmu.Controllers
                         }
                     }
                 }
-                ViewBag.data = data;
+                System.Diagnostics.Debug.WriteLine(data + "\n");
+                if (data != null) ViewBag.data = data;
                 return View();
             }
         }

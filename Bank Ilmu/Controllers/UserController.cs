@@ -14,7 +14,7 @@ namespace Bank_Ilmu.Controllers
         // GET: User
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("Login", "User");
         }
         public ActionResult Login()
         {
@@ -46,7 +46,6 @@ namespace Bank_Ilmu.Controllers
 
                 while (myReader.Read())
                 {
-                    System.Diagnostics.Debug.WriteLine(myReader["username"]+"\n");
                     if (myReader["username"].ToString()==username && myReader["password"].ToString() == password)
                     {
                         Session["username"] = username;

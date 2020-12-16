@@ -28,11 +28,11 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-user-circle"></i>
-                        Username
+                        @Session["username"]
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                         <span class="text-center">
-                            <strong><h3 class="mb-0">100</h3></strong>
+                            <strong><h3 class="mb-0">@Session["points"]</h3></strong>
                             <h6>Poin</h6>
                         </span>
                         <div class="dropdown-divider"></div>

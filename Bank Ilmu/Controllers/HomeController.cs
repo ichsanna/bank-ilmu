@@ -21,9 +21,9 @@ namespace Bank_Ilmu.Controllers
             else
             {
                 List<Post> data = new List<Post>();
-                List<List<String>> contents = new List<List<String>>();
-                List<List<String>> comments = new List<List<String>>();
-                List<String> likes = new List<String>();
+                List<List<string>> contents = new List<List<string>>();
+                List<List<string>> comments = new List<List<string>>();
+                List<string> likes = new List<string>();
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection"].ToString());
                 if (con.State == ConnectionState.Closed) con.Open();
                 string strSelect = "SELECT * FROM contents";
@@ -32,6 +32,7 @@ namespace Bank_Ilmu.Controllers
                 int count = 0;
                 while (myReader.Read())
                 {
+                    contents.Add(new List<string>());
                     contents[count].Add(myReader["Id"].ToString());
                     contents[count].Add(myReader["title"].ToString());
                     contents[count].Add(myReader["description"].ToString());
@@ -39,6 +40,7 @@ namespace Bank_Ilmu.Controllers
                     contents[count].Add(myReader["likecount"].ToString());
                     contents[count].Add(myReader["sharecount"].ToString());
                     contents[count].Add(myReader["downloadcount"].ToString());
+                    contents[count].Add(myReader["link"].ToString());
                     contents[count].Add(myReader["timestamp"].ToString());
                     count++;
                 }
@@ -49,6 +51,7 @@ namespace Bank_Ilmu.Controllers
                 count = 0;
                 while (myReader2.Read())
                 {
+                    comments.Add(new List<string>());
                     comments[count].Add(myReader2["user"].ToString());
                     comments[count].Add(myReader2["comment"].ToString());
                     comments[count].Add(myReader2["contentid"].ToString());
@@ -65,6 +68,7 @@ namespace Bank_Ilmu.Controllers
                 }
                 myReader3.Close();
                 con.Close();
+                //return Content(contents.Count.ToString() + comments.Count.ToString());
                 for (int i = 0; i < contents.Count; i++)
                 {
                     data.Add(new Post()
@@ -76,41 +80,31 @@ namespace Bank_Ilmu.Controllers
                         likecount = contents[i][4],
                         sharecount = contents[i][5],
                         downloadcount = contents[i][6],
-                        timestamp = contents[i][7],
+                        link = contents[i][7],
+                        timestamp = contents[i][8],
                         isliked = "false"
                     });
-                    for (int j = 0; j < comments.Count; j++)
-                    {
-                        if (comments[j][2] == contents[i][0])
+                        for (int j = 0; j < comments.Count; j++)
                         {
-                            data[0].comments = new List<List<String>>()
+                            if (comments[j][2] == contents[i][0])
+                            {
+                                data[i].comments = new List<List<String>>()
                             {
                                 new List<string>() {comments[i][0],comments[i][1],comments[i][3]}
                             };
+                            }
                         }
-                    }
                     for (int k = 0; k < likes.Count; k++)
                     {
                         if (likes[k] == contents[i][0])
                         {
-                            data[0].isliked = "true";
+                            data[i].isliked = "true";
                         }
                     }
                 }
-                System.Diagnostics.Debug.WriteLine(data + "\n");
                 if (data != null) ViewBag.data = data;
                 return View();
             }
-        }
-
-        public ActionResult Addnew()
-        {
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            return View();
         }
     }
 }

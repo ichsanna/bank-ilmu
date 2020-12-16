@@ -11,7 +11,7 @@ namespace Bank_Ilmu.Controllers
 {
     public class InteractionController : Controller
     {
-        [HttpPost]
+        
         public ActionResult Like(string contentid)
         {
             string owner = "a";
@@ -23,10 +23,9 @@ namespace Bank_Ilmu.Controllers
 
             while (myReader.Read())
             {
-                if (myReader["contentid"].ToString() == contentid)
-                {
+                
                     owner = myReader["owner"].ToString();
-                }
+                
             }
             myReader.Close();
             SqlCommand cmd2 = con.CreateCommand();
@@ -40,11 +39,11 @@ namespace Bank_Ilmu.Controllers
             SqlCommand cmd3 = con.CreateCommand();
             cmd3.CommandType = CommandType.Text;
             cmd3.CommandText = "INSERT INTO likes (user,contentid) VALUES ('" + Session["username"] + "','" + contentid + "')";
-            cmd3.ExecuteNonQuery();
+            //cmd3.ExecuteNonQuery();
             con.Close();
-            return Content("");
+            return RedirectToAction("Index", "Home");
         }
-        [HttpPost]
+
         public ActionResult Share(string contentid)
         {
             string owner = "a";
@@ -56,22 +55,21 @@ namespace Bank_Ilmu.Controllers
 
             while (myReader.Read())
             {
-                if (myReader["contentid"].ToString() == contentid)
-                {
+                
                     owner = myReader["owner"].ToString();
-                }
+                
             }
             myReader.Close();
-            SqlCommand cmd1 = con.CreateCommand();
-            cmd1.CommandType = CommandType.Text;
-            cmd1.CommandText = "UPDATE users SET points = points + 1 WHERE username = '" + owner + "'";
-            cmd1.ExecuteNonQuery();
             SqlCommand cmd2 = con.CreateCommand();
             cmd2.CommandType = CommandType.Text;
             cmd2.CommandText = "UPDATE contents SET sharecount = sharecount + 1 WHERE Id = '" + contentid + "'";
             cmd2.ExecuteNonQuery();
+            SqlCommand cmd1 = con.CreateCommand();
+            cmd1.CommandType = CommandType.Text;
+            cmd1.CommandText = "UPDATE users SET points = points + 1 WHERE username = '" + owner + "'";
+            cmd1.ExecuteNonQuery();
             con.Close();
-            return Content("");
+            return RedirectToAction("Index", "Home");
         }
         [HttpPost]
         public ActionResult Comment(string contentid,string comment)
@@ -91,16 +89,16 @@ namespace Bank_Ilmu.Controllers
                 }
             }
             myReader.Close();
-            SqlCommand cmd1 = con.CreateCommand();
-            cmd1.CommandType = CommandType.Text;
-            cmd1.CommandText = "UPDATE users SET points = points + 3 WHERE username = '" + owner + "'";
-            cmd1.ExecuteNonQuery();
             SqlCommand cmd2 = con.CreateCommand();
             cmd2.CommandType = CommandType.Text;
             cmd2.CommandText = "INSERT INTO comments (timestamp,user,comment,contentid) VALUES ('" + DateTime.Now.ToString("dddd, dd MMMM yyyy") + "','" + Session["username"] + "','" + comment + "','" + contentid + "')";
             cmd2.ExecuteNonQuery();
+            SqlCommand cmd1 = con.CreateCommand();
+            cmd1.CommandType = CommandType.Text;
+            cmd1.CommandText = "UPDATE users SET points = points + 3 WHERE username = '" + owner + "'";
+            cmd1.ExecuteNonQuery();
             con.Close();
-            return Content("");
+            return RedirectToAction("Index", "Home");
         }
     }
 }

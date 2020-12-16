@@ -22,20 +22,12 @@
                 <li class="nav-item @((ViewBag.Title == "Cari Materi") ? "active" : "")">
                     <a class="nav-link" href="@Url.Action("Index", "Search")"><i class="fas fa-search"></i> Cari</a>
                 </li>
-                <li class="nav-item @((ViewBag.Title == "Tukar Poin") ? "active" : "")">
-                    <a class="nav-link" href="@Url.Action("Index", "Prize")"><i class="fas fa-gift"></i> Tukar poin</a>
-                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-user-circle"></i>
                         @Session["username"]
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                        <span class="text-center">
-                            <strong><h3 class="mb-0">@Session["points"]</h3></strong>
-                            <h6>Poin</h6>
-                        </span>
-                        <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#"><i class="fas fa-user-circle"></i> Profil</a>
                         <a class="dropdown-item" href="@Url.Action("Logout", "User")"><i class="fas fa-sign-out-alt"></i> Keluar</a>
                     </div>

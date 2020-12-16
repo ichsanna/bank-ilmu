@@ -50,14 +50,14 @@
                         <p>@Html.ActionLink("Link web", "Click", "Content", new { link = ViewBag.data[i].link }, null)</p>
                         <div class="d-flex align-items-center mt-1">
                             <div class="mr-3">
-                                <i class="fas fa-thumbs-up"></i> @ViewBag.data[i].likecount
+                                <a href="@Url.Action("Like", "Interaction", new { contentid = ViewBag.data[i].postid })"><i class="fas fa-thumbs-up"></i></a> @ViewBag.data[i].likecount
                             </div>
                             <div class="mr-3">
-                                <i class="fas fa-download"></i> @ViewBag.data[i].downloadcount
+                                <i class="fas fa-eye"></i> @ViewBag.data[i].downloadcount
                             </div>
                             <div>
-                                <i class="fas fa-share-alt"></i> @ViewBag.data[i].sharecount
-                            </div>
+                                <a href="@Url.Action("Share", "Interaction", new { contentid = ViewBag.data[i].postid })"><i class="fas fa-share-alt"></i></a> @ViewBag.data[i].sharecount
+</div>
                         </div>
                     </div>
                     <hr />
@@ -66,12 +66,15 @@
                             <i class="fas fa-user-circle fa-3x"></i> <!--Use image-->
                         </div>
                         <div class="input-group ml-3">
-                            <textarea class="form-control" placeholder="Komentar" aria-label="Komentar" aria-describedby="button-addon" style="height: 38px;"></textarea>
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-secondary" type="button" id="button-addon2">
-                                    <i class="fas fa-chevron-circle-right"></i>
-                                </button>
-                            </div>
+                            @using (Html.BeginForm("comment", "Interaction", new { cententid = ViewBag.data[i].postid }, FormMethod.Post, new { @class = "flex-fill" }))
+                            {
+                                <textarea class="form-control" placeholder="Komentar" aria-label="Komentar" aria-describedby="button-addon" style="height: 38px;"></textarea>
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">
+                                        <i class="fas fa-chevron-circle-right"></i>
+                                    </button>
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>

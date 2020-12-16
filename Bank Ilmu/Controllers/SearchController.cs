@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Data;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using Bank_Ilmu.Models;
 using System.Configuration;
 
@@ -26,11 +26,11 @@ namespace Bank_Ilmu.Controllers
                     List<List<string>> contents = new List<List<string>>();
                     List<List<string>> comments = new List<List<string>>();
                     List<string> likes = new List<string>();
-                    SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection"].ToString());
+                    MySqlConnection con = new MySqlConnection(ConfigurationManager.ConnectionStrings["Connection"].ToString());
                     if (con.State == ConnectionState.Closed) con.Open();
                     string strSelect = "SELECT * FROM contents WHERE title = '" + query + "'";
-                    SqlCommand cmd = new SqlCommand(strSelect, con);
-                    SqlDataReader myReader = cmd.ExecuteReader();
+                    MySqlCommand cmd = new MySqlCommand(strSelect, con);
+                    MySqlDataReader myReader = cmd.ExecuteReader();
                     int count = 0;
                     while (myReader.Read())
                     {
@@ -48,8 +48,8 @@ namespace Bank_Ilmu.Controllers
                     }
                     myReader.Close();
                     string strSelect2 = "SELECT * FROM comments";
-                    SqlCommand cmd2 = new SqlCommand(strSelect2, con);
-                    SqlDataReader myReader2 = cmd2.ExecuteReader();
+                    MySqlCommand cmd2 = new MySqlCommand(strSelect2, con);
+                    MySqlDataReader myReader2 = cmd2.ExecuteReader();
                     count = 0;
                     while (myReader2.Read())
                     {
@@ -62,8 +62,8 @@ namespace Bank_Ilmu.Controllers
                     }
                     myReader2.Close();
                     string strSelect3 = "SELECT * FROM likes WHERE user = '" + Session["username"] + "'";
-                    SqlCommand cmd3 = new SqlCommand(strSelect3, con);
-                    SqlDataReader myReader3 = cmd3.ExecuteReader();
+                    MySqlCommand cmd3 = new MySqlCommand(strSelect3, con);
+                    MySqlDataReader myReader3 = cmd3.ExecuteReader();
                     while (myReader3.Read())
                     {
                         likes.Add(myReader["contentid"].ToString());

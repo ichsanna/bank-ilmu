@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Data;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Text;
 using Bank_Ilmu.Models;
 using System.Configuration;
@@ -41,11 +41,11 @@ namespace Bank_Ilmu.Controllers
             if (ModelState.IsValid)
             {
                 user.password = CreateMD5(user.password);
-                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection"].ToString());
+                MySqlConnection con = new MySqlConnection(ConfigurationManager.ConnectionStrings["Connection"].ToString());
                 if (con.State == ConnectionState.Closed) con.Open();
                 string strSelect = "SELECT * FROM users WHERE username = '"+user.username+ "' AND password = '" + user.password + "'";
-                SqlCommand cmd = new SqlCommand(strSelect, con);
-                SqlDataReader myReader = cmd.ExecuteReader();
+                MySqlCommand cmd = new MySqlCommand(strSelect, con);
+                MySqlDataReader myReader = cmd.ExecuteReader();
 
                 while (myReader.Read())
                 {
@@ -93,9 +93,9 @@ namespace Bank_Ilmu.Controllers
                 }
 
                 user.password = CreateMD5(user.password);
-                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection"].ToString());
+                MySqlConnection con = new MySqlConnection(ConfigurationManager.ConnectionStrings["Connection"].ToString());
                 if (con.State == ConnectionState.Closed) con.Open();
-                SqlCommand cmd = con.CreateCommand();
+                MySqlCommand cmd = con.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "INSERT INTO users (email,username,password) VALUES ('"+user.email+"','"+user.username+"','"+user.password+"')";
                 cmd.ExecuteNonQuery();

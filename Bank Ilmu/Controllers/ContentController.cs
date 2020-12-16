@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 using System.IO;
 using System.Threading.Tasks;
 using System.Data;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Configuration;
 
 namespace Bank_Ilmu.Controllers
@@ -19,9 +19,9 @@ namespace Bank_Ilmu.Controllers
         {
             if (!String.IsNullOrEmpty(title) && !String.IsNullOrEmpty(description))
             {
-                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection"].ToString());
+                MySqlConnection con = new MySqlConnection(ConfigurationManager.ConnectionStrings["Connection"].ToString());
                 if (con.State == ConnectionState.Closed) con.Open();
-                SqlCommand cmd = con.CreateCommand();
+                MySqlCommand cmd = con.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "INSERT INTO contents (title,description,owner,link,timestamp) VALUES ('" + title + "','" + description + "','" + Session["username"] + "','" + link + "','" + DateTime.Now.ToString("dddd, dd MMMM yyyy") + "')";
                 cmd.ExecuteNonQuery();
@@ -40,11 +40,11 @@ namespace Bank_Ilmu.Controllers
             int dlcount = 0;
             string contentid = "a";
             string owner = "a";
-            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection"].ToString());
+            MySqlConnection con = new MySqlConnection(ConfigurationManager.ConnectionStrings["Connection"].ToString());
             if (con.State == ConnectionState.Closed) con.Open();
             string strSelect = "SELECT * FROM contents WHERE link = '" + link + "'";
-            SqlCommand cmd = new SqlCommand(strSelect, con);
-            SqlDataReader myReader = cmd.ExecuteReader();
+            MySqlCommand cmd = new MySqlCommand(strSelect, con);
+            MySqlDataReader myReader = cmd.ExecuteReader();
 
             while (myReader.Read())
             {
@@ -53,11 +53,11 @@ namespace Bank_Ilmu.Controllers
                 owner = myReader["owner"].ToString();
             }
             myReader.Close();
-            SqlCommand cmd2 = con.CreateCommand();
+            MySqlCommand cmd2 = con.CreateCommand();
             cmd2.CommandType = CommandType.Text;
             cmd2.CommandText = "UPDATE contents SET downloadcount = " + dlcount + " WHERE Id = '" + contentid + "'";
             cmd2.ExecuteNonQuery();
-            SqlCommand cmd3 = con.CreateCommand();
+            MySqlCommand cmd3 = con.CreateCommand();
             cmd3.CommandType = CommandType.Text;
             cmd3.CommandText = "UPDATE users SET points = points + 1 WHERE username = '" + owner + "'";
             cmd3.ExecuteNonQuery();

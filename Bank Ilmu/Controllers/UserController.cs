@@ -50,6 +50,7 @@ namespace Bank_Ilmu.Controllers
                     if (myReader["username"].ToString()==username && myReader["password"].ToString() == password)
                     {
                         Session["username"] = username;
+                        Session["points"] = myReader["points"].ToString();
                         response = "Successfully logged in";
                     }
                 }
@@ -79,6 +80,7 @@ namespace Bank_Ilmu.Controllers
                 cmd.ExecuteNonQuery();
                 con.Close();
                 Session["username"] = username;
+                Session["points"] = 0;
                 ViewBag.response = "Successfully registered and logged in";
                 return RedirectToAction("Register", "User");
             }

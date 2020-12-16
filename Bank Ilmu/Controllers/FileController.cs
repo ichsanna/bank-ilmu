@@ -14,12 +14,13 @@ namespace Bank_Ilmu.Controllers
     public class FileController : Controller
     {
         [HttpPost]
-        public async Task<ActionResult> Upload(string title, string description, IFormFile file)
+        public async Task<ActionResult> Upload(string title, string description, IFormFile materi)
         {
             if (!String.IsNullOrEmpty(title) && !String.IsNullOrEmpty(description))
             {
+                System.Diagnostics.Debug.WriteLine(title + description + "\n");
                 int contentid = 0;
-                if (file == null || file.Length == 0)
+                if (materi == null || materi.Length == 0)
                     return Content("file not selected");
                 SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\bankilmu.mdf;Integrated Security=True");
                 if (con.State == ConnectionState.Closed) con.Open();
@@ -44,7 +45,7 @@ namespace Bank_Ilmu.Controllers
 
                 using (var stream = new FileStream(path, FileMode.Create))
                 {
-                    await file.CopyToAsync(stream);
+                    await materi.CopyToAsync(stream);
                 }
                 ViewBag.response = "Successfully uploaded";
                 return RedirectToAction("Home", "Index");

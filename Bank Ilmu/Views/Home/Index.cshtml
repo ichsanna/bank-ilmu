@@ -12,7 +12,7 @@
         <i class="fas fa-user-circle fa-3x"></i> <!--user image here-->
     </div>
     <div class="ml-3 flex-grow-1">
-        @using (Html.BeginForm("Upload", "File", FormMethod.Post))
+        @using (Html.BeginForm("Upload", "File", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
             <div class="form-group">
                 <label for="catatan">Judul materi</label>
@@ -24,7 +24,7 @@
             </div>
             <div class="custom-file">
                 <label for="materi" class="custom-file-label">Upload Materi</label>
-                <input name="file" type="file" class="custom-file-input" id="materi" />
+                <input type="file" name="materi" class="custom-file-input" id="materi" />
             </div>
             <button type="submit" class="btn btn-primary mt-2">Unggah</button>
         }

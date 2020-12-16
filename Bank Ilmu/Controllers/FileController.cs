@@ -8,6 +8,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
+using System.Configuration;
 
 namespace Bank_Ilmu.Controllers
 {
@@ -21,7 +22,7 @@ namespace Bank_Ilmu.Controllers
                 System.Diagnostics.Debug.WriteLine(title + description + "\n");
                 int contentid = 0;
                 if (materi == null || materi.Length == 0) return Content("file not selected");
-                SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\bankilmu.mdf;Integrated Security=True");
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection"].ToString());
                 if (con.State == ConnectionState.Closed) con.Open();
                 SqlCommand cmd = con.CreateCommand();
                 cmd.CommandType = CommandType.Text;
@@ -72,7 +73,7 @@ namespace Bank_Ilmu.Controllers
             }
             memory.Position = 0;
             int dlcount = 0;
-            SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\bankilmu.mdf;Integrated Security=True");
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection"].ToString());
             if (con.State == ConnectionState.Closed) con.Open();
             string strSelect = "SELECT * FROM contents WHERE Id = '" + contentid + "'";
             SqlCommand cmd = new SqlCommand(strSelect, con);

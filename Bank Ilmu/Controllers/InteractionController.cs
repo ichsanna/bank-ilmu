@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data;
 using System.Data.SqlClient;
+using System.Configuration;
 
 namespace Bank_Ilmu.Controllers
 {
@@ -14,7 +15,7 @@ namespace Bank_Ilmu.Controllers
         public ActionResult Like(string contentid)
         {
             string owner = "a";
-            SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\bankilmu.mdf;Integrated Security=True");
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection"].ToString());
             if (con.State == ConnectionState.Closed) con.Open();
             string strSelect = "SELECT * FROM contents WHERE Id = '" + contentid + "'";
             SqlCommand cmd = new SqlCommand(strSelect, con);
@@ -47,7 +48,7 @@ namespace Bank_Ilmu.Controllers
         public ActionResult Share(string contentid)
         {
             string owner = "a";
-            SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\bankilmu.mdf;Integrated Security=True");
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection"].ToString());
             if (con.State == ConnectionState.Closed) con.Open();
             string strSelect = "SELECT * FROM contents WHERE Id = '" + contentid + "'";
             SqlCommand cmd = new SqlCommand(strSelect, con);
@@ -76,7 +77,7 @@ namespace Bank_Ilmu.Controllers
         public ActionResult Comment(string contentid,string comment)
         {
             string owner = "a";
-            SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\bankilmu.mdf;Integrated Security=True");
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection"].ToString());
             if (con.State == ConnectionState.Closed) con.Open();
             string strSelect = "SELECT * FROM contents WHERE Id = '" + contentid + "'";
             SqlCommand cmd = new SqlCommand(strSelect, con);

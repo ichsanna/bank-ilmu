@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Data;
 using System.Data.SqlClient;
 using Bank_Ilmu.Models;
+using System.Configuration;
 
 namespace Bank_Ilmu.Controllers
 {
@@ -25,7 +26,7 @@ namespace Bank_Ilmu.Controllers
                     List<List<String>> contents = new List<List<String>>();
                     List<List<String>> comments = new List<List<String>>();
                     List<String> likes = new List<String>();
-                    SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\bankilmu.mdf;Integrated Security=True");
+                    SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection"].ToString());
                     if (con.State == ConnectionState.Closed) con.Open();
                     string strSelect = "SELECT * FROM contents WHERE title = '" + query + "'";
                     SqlCommand cmd = new SqlCommand(strSelect, con);

@@ -7,6 +7,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 using Bank_Ilmu.Models;
+using System.Configuration;
 
 namespace Bank_Ilmu.Controllers
 {
@@ -40,7 +41,7 @@ namespace Bank_Ilmu.Controllers
             if (ModelState.IsValid)
             {
                 user.password = CreateMD5(user.password);
-                SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\bankilmu.mdf;Integrated Security=True");
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection"].ToString());
                 if (con.State == ConnectionState.Closed) con.Open();
                 string strSelect = "SELECT * FROM users WHERE username = '"+user.username+ "' AND password = '" + user.password + "'";
                 SqlCommand cmd = new SqlCommand(strSelect, con);
@@ -92,7 +93,7 @@ namespace Bank_Ilmu.Controllers
                 }
 
                 user.password = CreateMD5(user.password);
-                SqlConnection con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\bankilmu.mdf;Integrated Security=True");
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection"].ToString());
                 if (con.State == ConnectionState.Closed) con.Open();
                 SqlCommand cmd = con.CreateCommand();
                 cmd.CommandType = CommandType.Text;

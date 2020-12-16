@@ -14,6 +14,7 @@ namespace Bank_Ilmu.Models
         public string likecount { get; set; }
         public string sharecount { get; set; }
         public string downloadcount { get; set; }
+        public string link { get; set; }
         public string timestamp { get; set; }
         public string isliked { get; set; }
         public List<List<string>> comments { get; set; }
